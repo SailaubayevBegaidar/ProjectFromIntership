@@ -24,11 +24,12 @@ public class TaskRepository {
     }
 
     public Optional<Task> findById(Integer id) {
-        var sql = "SELECT * FROM tasks WHERE id = :id";
-        var params = new MapSqlParameterSource("id", id);
-        var result = jdbc.query(sql, params, new BeanPropertyRowMapper<>(Task.class));
+        String sql = "SELECT * FROM tasks WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource("id", id);
+        List<Task> result = jdbc.query(sql, params, new BeanPropertyRowMapper<>(Task.class));
         return result.stream().findFirst();
     }
+
 
     public void create(Task task) {
         var sql = "INSERT INTO tasks(id, title, started_on, completed_on, location) " +

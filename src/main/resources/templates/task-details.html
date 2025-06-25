@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Task Details</title>
+</head>
+<body>
+<h2>Task Info</h2>
+<ul>
+  <li>ID: <span th:text="${task.id}"></span></li>
+  <li>Title: <span th:text="${task.title}"></span></li>
+  <li>Started On: <span th:text="${#temporals.format(task.startedOn, 'yyyy-MM-dd HH:mm')}"></span></li>
+  <li>Completed On: <span th:text="${#temporals.format(task.completedOn, 'yyyy-MM-dd HH:mm')}"></span></li>
+  <li>Location: <span th:text="${task.location}"></span></li>
+</ul>
+<a th:href="@{/api/tasks}">← Back</a>
+</body>
+</html>
