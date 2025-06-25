@@ -1,7 +1,6 @@
 package com.example.Coordinater.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,16 +9,28 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(name = "started_on", nullable = false)
     private LocalDateTime startedOn;
+
+    @Column(name = "completed_on", nullable = false)
     private LocalDateTime completedOn;
+
+    @Column(nullable = false)
     private String location;
+
+    @Column(name = "assigned_to")
+    private String assignedTo; // username инженера
+
 
     public Task() {}
 
-    public Task(int id, String title, LocalDateTime startedOn, LocalDateTime completedOn, String location) {
-        this.id = id;
+
+    public Task(String title, LocalDateTime startedOn, LocalDateTime completedOn, String location) {
         this.title = title;
         this.startedOn = startedOn;
         this.completedOn = completedOn;
@@ -27,11 +38,21 @@ public class Task {
     }
 
 
-//    public int getId() {
-//        return id;
-//    }
+    public Task(Integer id, String title, LocalDateTime startedOn, LocalDateTime completedOn, String location, String assignedTo) {
+        this.id = id;
+        this.title = title;
+        this.startedOn = startedOn;
+        this.completedOn = completedOn;
+        this.location = location;
+        this.assignedTo = assignedTo;
+    }
 
-    public void setId(int id) {
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -67,6 +88,14 @@ public class Task {
         this.location = location;
     }
 
+    public String getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(String assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -75,18 +104,7 @@ public class Task {
                 ", startedOn=" + startedOn +
                 ", completedOn=" + completedOn +
                 ", location='" + location + '\'' +
+                ", assignedTo='" + assignedTo + '\'' +
                 '}';
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public Long getId() {
-//        return id;
-//    }
 }

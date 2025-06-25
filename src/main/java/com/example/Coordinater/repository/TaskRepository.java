@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,34 +29,43 @@ public class TaskRepository {
         return result.stream().findFirst();
     }
 
-
     public void create(Task task) {
-        String sql = "INSERT INTO tasks (title, started_on, completed_on, location) " +
-                "VALUES (:title, :startedOn, :completedOn, :location)";
-
-        MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("title", task.getTitle())
-                .addValue("startedOn", task.getStartedOn())
-                .addValue("completedOn", task.getCompletedOn())
-                .addValue("location", task.getLocation());
-
-        jdbc.update(sql, params);
-    }
-
-
-    public void update(Task task, int id) {
-        String sql = "UPDATE tasks SET title = :title, started_on = :startedOn, completed_on = :completedOn, location = :location WHERE id = :id";
+        String sql = "INSERT INTO tasks (title, started_on, completed_on, location, assigned_to) " +
+                "VALUES (:title, :startedOn, :completedOn, :location, :assignedTo)";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("title", task.getTitle())
                 .addValue("startedOn", task.getStartedOn())
                 .addValue("completedOn", task.getCompletedOn())
                 .addValue("location", task.getLocation())
+                .addValue("assignedTo", task.getAssignedTo());
+
+        jdbc.update(sql, params);
+    }
+
+    public void update(Task task, int id) {
+        String sql = "UPDATE tasks SET title = :title, started_on = :startedOn, completed_on = :completedOn, " +
+                "location = :location, assigned_to = :assignedTo WHERE id = :id";
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("title", task.getTitle())
+                .addValue("startedOn", task.getStartedOn())
+                .addValue("completedOn", task.getCompletedOn())
+                .addValue("location", task.getLocation())
+                .addValue("assignedTo", task.getAssignedTo())
                 .addValue("id", id);
 
         jdbc.update(sql, params);
     }
 
+    public void assignEngineer(int taskId, String username) {
+        String sql = "UPDATE tasks SET assigned_to = :username WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("username", username)
+                .addValue("id", taskId);
+
+        jdbc.update(sql, params);
+    }
 
     public void delete(int id) {
         String sql = "DELETE FROM tasks WHERE id = :id";
@@ -65,14 +73,13 @@ public class TaskRepository {
         jdbc.update(sql, params);
     }
 
-
     public int count() {
         return jdbc.query("SELECT * FROM tasks", new BeanPropertyRowMapper<>(Task.class)).size();
     }
 
     public List<Task> findByLocation(String location) {
-        var sql = "SELECT * FROM tasks WHERE location = :location";
-        var params = new MapSqlParameterSource("location", location);
+        String sql = "SELECT * FROM tasks WHERE location = :location";
+        MapSqlParameterSource params = new MapSqlParameterSource("location", location);
         return jdbc.query(sql, params, new BeanPropertyRowMapper<>(Task.class));
     }
 
