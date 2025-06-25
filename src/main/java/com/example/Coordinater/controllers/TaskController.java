@@ -63,6 +63,12 @@ public class TaskController {
         return "redirect:/api/tasks";
     }
 
+    @PostMapping("/tasks/delete/{id}")
+    public String deleteTask(@PathVariable int id) {
+        taskRepository.delete(id);
+        return "redirect:/api/tasks";
+    }
+
 
 }
 

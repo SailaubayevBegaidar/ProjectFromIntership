@@ -59,12 +59,12 @@ public class TaskRepository {
     }
 
 
-    public void delete(Integer id) {
-        var sql = "DELETE FROM tasks WHERE id = :id";
-        var params = new MapSqlParameterSource("id", id);
-        int updated = jdbc.update(sql, params);
-        Assert.state(updated == 1, "Failed to delete task " + id);
+    public void delete(int id) {
+        String sql = "DELETE FROM tasks WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource("id", id);
+        jdbc.update(sql, params);
     }
+
 
     public int count() {
         return jdbc.query("SELECT * FROM tasks", new BeanPropertyRowMapper<>(Task.class)).size();
