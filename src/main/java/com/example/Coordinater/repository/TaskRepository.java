@@ -45,19 +45,19 @@ public class TaskRepository {
         Assert.state(updated == 1, "Failed to create task " + task.getTitle());
     }
 
-    public void update(Task task, Integer id) {
-        var sql = "UPDATE tasks SET title = :title, started_on = :started_on, completed_on = :completed_on, location = :location " +
-                "WHERE id = :id";
-        var params = new MapSqlParameterSource()
+    public void update(Task task, int id) {
+        String sql = "UPDATE tasks SET title = :title, started_on = :startedOn, completed_on = :completedOn, location = :location WHERE id = :id";
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("title", task.getTitle())
-                .addValue("started_on", task.getStartedOn())
-                .addValue("completed_on", task.getCompletedOn())
+                .addValue("startedOn", task.getStartedOn())
+                .addValue("completedOn", task.getCompletedOn())
                 .addValue("location", task.getLocation())
                 .addValue("id", id);
 
-        int updated = jdbc.update(sql, params);
-        Assert.state(updated == 1, "Failed to update task " + task.getTitle());
+        jdbc.update(sql, params);
     }
+
 
     public void delete(Integer id) {
         var sql = "DELETE FROM tasks WHERE id = :id";

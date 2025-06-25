@@ -79,7 +79,7 @@ public class Task {
                 '}';
     }
 
-    public Object getId() {
+    public Integer getId() {
         return id;
     }
 

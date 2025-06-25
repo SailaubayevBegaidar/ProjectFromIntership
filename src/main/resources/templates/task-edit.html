@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Task</title>
+</head>
+<body>
+<h2>Edit Task</h2>
+
+<form th:action="@{/api/tasks/update}" th:object="${task}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <label>Title:</label>
+    <input type="text" th:field="*{title}" required/><br/>
+
+    <label>Started On:</label>
+    <input type="datetime-local" th:field="*{startedOn}" required/><br/>
+
+    <label>Completed On:</label>
+    <input type="datetime-local" th:field="*{completedOn}" required/><br/>
+
+    <label>Location:</label>
+    <input type="text" th:field="*{location}" required/><br/>
+
+    <button type="submit">Update</button>
+</form>
+
+<a th:href="@{/api/tasks}">← Back</a>
+</body>
+</html>

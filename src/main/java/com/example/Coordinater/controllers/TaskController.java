@@ -36,6 +36,23 @@ public class TaskController {
             return "error/404";
         }
     }
+    @GetMapping("/tasks/edit/{id}")
+    public String showEditForm(@PathVariable("id") int id, Model model) {
+        Optional<Task> task = taskRepository.findById(id);
+        if (task.isPresent()) {
+            model.addAttribute("task", task.get());
+            return "task-edit";
+        } else {
+            return "error/404";
+        }
+    }
+    @PostMapping("/tasks/update")
+    public String updateTask(@ModelAttribute("task") Task task) {
+        taskRepository.update(task, task.getId());
+        return "redirect:/api/tasks";
+    }
+
+
 
 }
 
