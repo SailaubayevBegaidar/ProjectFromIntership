@@ -51,7 +51,17 @@ public class TaskController {
         taskRepository.update(task, task.getId());
         return "redirect:/api/tasks";
     }
+    @GetMapping("/tasks/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("task", new Task());
+        return "task-create";
+    }
 
+    @PostMapping("/tasks/save")
+    public String saveTask(@ModelAttribute("task") Task task) {
+        taskRepository.create(task);
+        return "redirect:/api/tasks";
+    }
 
 
 }

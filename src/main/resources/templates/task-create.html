@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Task</title>
+</head>
+<body>
+<h2>Create New Task</h2>
+
+<form th:action="@{/api/tasks/save}" th:object="${task}" method="post">
+    <label>Title:</label>
+    <input type="text" th:field="*{title}" required/><br/>
+
+    <label>Started On:</label>
+    <input type="datetime-local" th:field="*{startedOn}" required/><br/>
+
+    <label>Completed On:</label>
+    <input type="datetime-local" th:field="*{completedOn}" required/><br/>
+
+    <label>Location:</label>
+    <input type="text" th:field="*{location}" required/><br/>
+
+    <button type="submit">Create</button>
+</form>
+
+<a th:href="@{/api/tasks}">← Back</a>
+</body>
+</html>

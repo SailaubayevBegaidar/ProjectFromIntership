@@ -32,18 +32,18 @@ public class TaskRepository {
 
 
     public void create(Task task) {
-        var sql = "INSERT INTO tasks(id, title, started_on, completed_on, location) " +
-                "VALUES (:id, :title, :started_on, :completed_on, :location)";
-        var params = new MapSqlParameterSource()
-                .addValue("id", task.getId())
+        String sql = "INSERT INTO tasks (title, started_on, completed_on, location) " +
+                "VALUES (:title, :startedOn, :completedOn, :location)";
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("title", task.getTitle())
-                .addValue("started_on", task.getStartedOn())
-                .addValue("completed_on", task.getCompletedOn())
+                .addValue("startedOn", task.getStartedOn())
+                .addValue("completedOn", task.getCompletedOn())
                 .addValue("location", task.getLocation());
 
-        int updated = jdbc.update(sql, params);
-        Assert.state(updated == 1, "Failed to create task " + task.getTitle());
+        jdbc.update(sql, params);
     }
+
 
     public void update(Task task, int id) {
         String sql = "UPDATE tasks SET title = :title, started_on = :startedOn, completed_on = :completedOn, location = :location WHERE id = :id";

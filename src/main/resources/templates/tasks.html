@@ -31,11 +31,12 @@
         </td>
         <td th:text="${task.location}"></td>
         <td>
-            <a th:href="@{'/api/tasks/' + ${task.id}}">View</a> |
+            <a th:href="@{'/api/tasks/' + ${task.id}}">View</a>
             <a th:href="@{'/api/tasks/edit/' + ${task.id}}">Edit</a>
         </td>
     </tr>
     </tbody>
 </table>
+<a th:href="@{/api/tasks/create}">+ Create New Task</a>
 </body>
 </html>
