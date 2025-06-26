@@ -1,7 +1,5 @@
 package com.example.Coordinater;
 
-import com.example.Coordinater.run.Location;
-import com.example.Coordinater.run.TasksForEngineers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -24,8 +22,7 @@ public class CoordinaterApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(){
 		return args -> {
-			TasksForEngineers tasks = new TasksForEngineers(1,"build engine", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), Location.INDOOR);
-			log.info("Tasks for Engineers are: " + tasks);
+
 		};
 	}
 

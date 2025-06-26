@@ -58,14 +58,14 @@ public class TaskRepository {
         jdbc.update(sql, params);
     }
 
-    public void assignEngineer(int taskId, String username) {
+    public void assignTaskToEngineer(int taskId, String username) {
         String sql = "UPDATE tasks SET assigned_to = :username WHERE id = :id";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("username", username)
                 .addValue("id", taskId);
-
         jdbc.update(sql, params);
     }
+
 
     public void delete(int id) {
         String sql = "DELETE FROM tasks WHERE id = :id";

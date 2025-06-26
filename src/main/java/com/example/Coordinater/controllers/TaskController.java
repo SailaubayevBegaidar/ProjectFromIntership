@@ -2,10 +2,12 @@ package com.example.Coordinater.controllers;
 
 import com.example.Coordinater.entity.Task;
 import com.example.Coordinater.repository.TaskRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +68,14 @@ public class TaskController {
     @PostMapping("/tasks/delete/{id}")
     public String deleteTask(@PathVariable int id) {
         taskRepository.delete(id);
+        return "redirect:/api/tasks";
+    }
+
+    @PostMapping("/api/tasks/assign/{id}")
+    @PreAuthorize("hasRole('ENGINEER')")
+    public String assignTask(@PathVariable("id") int id, Principal principal) {
+        String username = principal.getName();
+        taskRepository.assignTaskToEngineer(id, username);
         return "redirect:/api/tasks";
     }
 
