@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User Details</title>
+</head>
+<body>
+<h1>User Details</h1>
+<div>
+  <label>ID:</label>
+  <span th:text="${user.id}"></span>
+</div>
+<div>
+  <label>Username:</label>
+  <span th:text="${user.username}"></span>
+</div>
+<div>
+  <label>Password:</label>
+  <span th:text="${user.password}"></span>
+</div>
+<div>
+  <label>Role:</label>
+  <span th:text="${user.role}"></span>
+</div>
+<div>
+  <label>Enabled:</label>
+  <span th:text="${user.enabled} ? 'Yes' : 'No'"></span>
+</div>
+<a th:href="@{/api/users}">Back to list</a>
+</body>
+</html>

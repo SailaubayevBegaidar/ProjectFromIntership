@@ -39,6 +39,7 @@ public class TaskController {
         }
     }
     @GetMapping("/tasks/edit/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MASTER')")
     public String showEditForm(@PathVariable("id") int id, Model model) {
         Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
@@ -49,29 +50,33 @@ public class TaskController {
         }
     }
     @PostMapping("/tasks/update")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MASTER')")
     public String updateTask(@ModelAttribute("task") Task task) {
         taskRepository.update(task, task.getId());
         return "redirect:/api/tasks";
     }
     @GetMapping("/tasks/create")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MASTER')")
     public String showCreateForm(Model model) {
         model.addAttribute("task", new Task());
         return "task-create";
     }
 
     @PostMapping("/tasks/save")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MASTER')")
     public String saveTask(@ModelAttribute("task") Task task) {
         taskRepository.create(task);
         return "redirect:/api/tasks";
     }
 
     @PostMapping("/tasks/delete/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MASTER')")
     public String deleteTask(@PathVariable int id) {
         taskRepository.delete(id);
         return "redirect:/api/tasks";
     }
 
-    @PostMapping("/api/tasks/assign/{id}")
+    @PostMapping("/tasks/assign/{id}")
     @PreAuthorize("hasRole('ENGINEER')")
     public String assignTask(@PathVariable("id") int id, Principal principal) {
         String username = principal.getName();

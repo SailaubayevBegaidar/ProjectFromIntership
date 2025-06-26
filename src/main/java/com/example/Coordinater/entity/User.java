@@ -20,6 +20,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(nullable = false)
+    private boolean enabled = true;
+
     public int getId() {
         return id;
     }
@@ -43,5 +46,11 @@ public class User {
     }
     public void setRole(Role role) {
         this.role = role;
+    }
+    public boolean isEnabled() {
+        return enabled;
+    }
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
