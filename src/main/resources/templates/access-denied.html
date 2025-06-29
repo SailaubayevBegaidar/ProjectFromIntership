@@ -1,11 +1,219 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Access Denied</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAITAN | Access Denied</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --light-blue: #3b82f6;
+            --dark-blue: #1e40af;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --medium-gray: #e2e8f0;
+            --dark-gray: #64748b;
+            --text-dark: #1e293b;
+            --text-light: #f8fafc;
+            --error-red: #ef4444;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --radius-sm: 4px;
+            --radius: 8px;
+            --radius-lg: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--white) 0%, #f0f7ff 100%);
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            border-bottom: 3px solid var(--primary-blue);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            background: linear-gradient(to right, var(--primary-blue), var(--light-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Main content */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 0;
+        }
+
+        /* Error Card */
+        .error-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            border-top: 4px solid var(--error-red);
+        }
+
+        .error-icon {
+            font-size: 48px;
+            color: var(--error-red);
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            color: var(--error-red);
+            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .error-message {
+            margin-bottom: 25px;
+            font-size: 16px;
+            color: var(--text-dark);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            padding: 30px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.8;
+        }
+
+        .copyright {
+            font-size: 14px;
+            opacity: 0.8;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<h1>Access Denied</h1>
-<p>You don't have permission to access this page.</p>
-<a th:href="@{/api/tasks}">Back to Tasks</a>
+<header>
+    <div class="container">
+        <a href="#" class="logo">DAITAN</a>
+    </div>
+</header>
+
+<main class="container">
+    <div class="error-card">
+        <div class="error-icon">
+            <i class="fas fa-ban"></i>
+        </div>
+        <h1 class="error-title">Access Denied</h1>
+        <p class="error-message">You don't have permission to access this page.</p>
+        <a th:href="@{/api/tasks}" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Back to Tasks
+        </a>
+    </div>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <div class="footer-links">
+            <a href="https://github.com/SailaubayevBegaidar" target="_blank">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="tel:+77057789246">
+                <i class="fas fa-phone"></i> 8 705 778 92 46
+            </a>
+            <a href="mailto:sailaubayevbegaidar@gmail.com">
+                <i class="fas fa-envelope"></i> sailaubayevbegaidar@gmail.com
+            </a>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DAITAN. All rights reserved.
+        </div>
+    </div>
+</footer>
 </body>
 </html>

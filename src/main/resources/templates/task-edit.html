@@ -2,32 +2,274 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Task</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAITAN | Edit Task</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --light-blue: #3b82f6;
+            --dark-blue: #1e40af;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --medium-gray: #e2e8f0;
+            --dark-gray: #64748b;
+            --text-dark: #1e293b;
+            --text-light: #f8fafc;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --radius-sm: 4px;
+            --radius: 8px;
+            --radius-lg: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--white) 0%, #f0f7ff 100%);
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            border-bottom: 3px solid var(--primary-blue);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            background: linear-gradient(to right, var(--primary-blue), var(--light-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Main content */
+        main {
+            flex: 1;
+            padding: 30px 0;
+        }
+
+        /* Form styles */
+        .form-container {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-title {
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background-color: var(--medium-gray);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--dark-gray);
+            color: var(--white);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-3 {
+            margin-top: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.8;
+        }
+
+        .copyright {
+            font-size: 14px;
+            opacity: 0.8;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<h2>Edit Task</h2>
+<header>
+    <div class="container">
+        <a href="#" class="logo">DAITAN</a>
+    </div>
+</header>
 
-<form th:action="@{/api/tasks/update}" th:object="${task}" method="post">
-    <input type="hidden" th:field="*{id}"/>
+<main class="container">
+    <div class="form-container">
+        <h2 class="form-title"><i class="fas fa-edit"></i> Edit Task</h2>
 
-    <label>Title:</label>
-    <input type="text" th:field="*{title}" required/><br/>
+        <form th:action="@{/api/tasks/update}" th:object="${task}" method="post">
+            <input type="hidden" th:field="*{id}"/>
 
-    <label>Started On:</label>
-    <input type="datetime-local" th:field="*{startedOn}" required/><br/>
+            <div class="form-group">
+                <label for="title"><i class="fas fa-heading"></i> Title:</label>
+                <input type="text" id="title" th:field="*{title}" class="form-control" required/>
+            </div>
 
-    <label>Completed On:</label>
-    <input type="datetime-local" th:field="*{completedOn}" required/><br/>
+            <div class="form-group">
+                <label for="startedOn"><i class="fas fa-clock"></i> Started On:</label>
+                <input type="datetime-local" id="startedOn" th:field="*{startedOn}" class="form-control" required/>
+            </div>
 
-    <label>Location:</label>
-    <input type="text" th:field="*{location}" required/><br/>
+            <div class="form-group">
+                <label for="completedOn"><i class="fas fa-check-circle"></i> Completed On:</label>
+                <input type="datetime-local" id="completedOn" th:field="*{completedOn}" class="form-control" required/>
+            </div>
 
-    <label>Assigned To (Engineer Username):</label>
-    <input type="text" th:field="*{assignedTo}" placeholder="Optional"/><br/>
+            <div class="form-group">
+                <label for="location"><i class="fas fa-map-marker-alt"></i> Location:</label>
+                <input type="text" id="location" th:field="*{location}" class="form-control" required/>
+            </div>
 
-    <button type="submit">Update</button>
-</form>
+            <div class="form-group">
+                <label for="assignedTo"><i class="fas fa-user"></i> Assigned To (Engineer Username):</label>
+                <input type="text" id="assignedTo" th:field="*{assignedTo}" class="form-control" placeholder="Optional"/>
+            </div>
 
-<a th:href="@{/api/tasks}">← Back</a>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update Task</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <a th:href="@{/api/tasks}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Tasks</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <div class="footer-links">
+            <a href="https://github.com/SailaubayevBegaidar" target="_blank">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="tel:+77057789246">
+                <i class="fas fa-phone"></i> 8 705 778 92 46
+            </a>
+            <a href="mailto:sailaubayevbegaidar@gmail.com">
+                <i class="fas fa-envelope"></i> sailaubayevbegaidar@gmail.com
+            </a>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DAITAN. All rights reserved.
+        </div>
+    </div>
+</footer>
 </body>
 </html>

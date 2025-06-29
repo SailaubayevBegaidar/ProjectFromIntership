@@ -2,30 +2,298 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>User Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAITAN | User Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-blue: #2563eb;
+      --light-blue: #3b82f6;
+      --dark-blue: #1e40af;
+      --white: #ffffff;
+      --light-gray: #f8fafc;
+      --medium-gray: #e2e8f0;
+      --dark-gray: #64748b;
+      --text-dark: #1e293b;
+      --text-light: #f8fafc;
+      --success-green: #10b981;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --radius-sm: 4px;
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--light-gray);
+      color: var(--text-dark);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--white) 0%, #f0f7ff 100%);
+      padding: 20px 0;
+      box-shadow: var(--shadow);
+      border-bottom: 3px solid var(--primary-blue);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      text-decoration: none;
+      background: linear-gradient(to right, var(--primary-blue), var(--light-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Main content */
+    main {
+      flex: 1;
+      padding: 30px 0;
+    }
+
+    /* User Details Card */
+    .user-card {
+      background-color: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .user-title {
+      color: var(--primary-blue);
+      margin-bottom: 25px;
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .user-details {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .detail-row {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--medium-gray);
+      align-items: center;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 500;
+      min-width: 120px;
+      color: var(--dark-gray);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .detail-value {
+      flex: 1;
+      color: var(--text-dark);
+      word-break: break-word;
+    }
+
+    .enabled-true {
+      color: var(--success-green);
+      font-weight: 500;
+    }
+
+    .enabled-false {
+      color: var(--dark-gray);
+      font-style: italic;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-secondary {
+      background-color: var(--medium-gray);
+      color: var(--text-dark);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--dark-gray);
+      color: var(--white);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .mt-4 {
+      margin-top: 20px;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--dark-blue);
+      color: var(--text-light);
+      padding: 30px 0;
+      margin-top: 50px;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .footer-links a:hover {
+      opacity: 0.8;
+    }
+
+    .copyright {
+      font-size: 14px;
+      opacity: 0.8;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-<h1>User Details</h1>
-<div>
-  <label>ID:</label>
-  <span th:text="${user.id}"></span>
-</div>
-<div>
-  <label>Username:</label>
-  <span th:text="${user.username}"></span>
-</div>
-<div>
-  <label>Password:</label>
-  <span th:text="${user.password}"></span>
-</div>
-<div>
-  <label>Role:</label>
-  <span th:text="${user.role}"></span>
-</div>
-<div>
-  <label>Enabled:</label>
-  <span th:text="${user.enabled} ? 'Yes' : 'No'"></span>
-</div>
-<a th:href="@{/api/users}">Back to list</a>
+<header>
+  <div class="container">
+    <a href="#" class="logo">DAITAN</a>
+  </div>
+</header>
+
+<main class="container">
+  <div class="user-card">
+    <h1 class="user-title">
+      <i class="fas fa-user-circle"></i> User Details
+    </h1>
+
+    <div class="user-details">
+      <div class="detail-row">
+                    <span class="detail-label">
+                        <i class="fas fa-id-card"></i> ID:
+                    </span>
+        <span class="detail-value" th:text="${user.id}"></span>
+      </div>
+
+      <div class="detail-row">
+                    <span class="detail-label">
+                        <i class="fas fa-user"></i> Username:
+                    </span>
+        <span class="detail-value" th:text="${user.username}"></span>
+      </div>
+
+      <div class="detail-row">
+                    <span class="detail-label">
+                        <i class="fas fa-lock"></i> Password:
+                    </span>
+        <span class="detail-value" th:text="${user.password}"></span>
+      </div>
+
+      <div class="detail-row">
+                    <span class="detail-label">
+                        <i class="fas fa-user-tag"></i> Role:
+                    </span>
+        <span class="detail-value" th:text="${user.role}"></span>
+      </div>
+
+      <div class="detail-row">
+                    <span class="detail-label">
+                        <i class="fas fa-power-off"></i> Enabled:
+                    </span>
+        <span class="detail-value" th:classappend="${user.enabled} ? 'enabled-true' : 'enabled-false'"
+              th:text="${user.enabled} ? 'Yes' : 'No'"></span>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <a th:href="@{/api/users}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to list
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-content">
+    <div class="footer-links">
+      <a href="https://github.com/SailaubayevBegaidar" target="_blank">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+      <a href="tel:+77057789246">
+        <i class="fas fa-phone"></i> 8 705 778 92 46
+      </a>
+      <a href="mailto:sailaubayevbegaidar@gmail.com">
+        <i class="fas fa-envelope"></i> sailaubayevbegaidar@gmail.com
+      </a>
+    </div>
+    <div class="copyright">
+      &copy; 2023 DAITAN. All rights reserved.
+    </div>
+  </div>
+</footer>
 </body>
 </html>

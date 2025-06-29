@@ -2,33 +2,314 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAITAN | Create User</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --light-blue: #3b82f6;
+            --dark-blue: #1e40af;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --medium-gray: #e2e8f0;
+            --dark-gray: #64748b;
+            --text-dark: #1e293b;
+            --text-light: #f8fafc;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --radius-sm: 4px;
+            --radius: 8px;
+            --radius-lg: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--white) 0%, #f0f7ff 100%);
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            border-bottom: 3px solid var(--primary-blue);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            background: linear-gradient(to right, var(--primary-blue), var(--light-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Main content */
+        main {
+            flex: 1;
+            padding: 30px 0;
+        }
+
+        /* Form styles */
+        .form-container {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-title {
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232563eb' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-blue);
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background-color: var(--medium-gray);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--dark-gray);
+            color: var(--white);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.8;
+        }
+
+        .copyright {
+            font-size: 14px;
+            opacity: 0.8;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<h1>Create New User</h1>
-<form th:action="@{/api/users/save}" th:object="${user}" method="post">
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" th:field="*{username}" required>
+<header>
+    <div class="container">
+        <a href="#" class="logo">DAITAN</a>
     </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" th:field="*{password}" required>
+</header>
+
+<main class="container">
+    <div class="form-container">
+        <h1 class="form-title">
+            <i class="fas fa-user-plus"></i> Create New User
+        </h1>
+
+        <form th:action="@{/api/users/save}" th:object="${user}" method="post">
+            <div class="form-group">
+                <label for="username">
+                    <i class="fas fa-user"></i> Username:
+                </label>
+                <input type="text" id="username" th:field="*{username}" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">
+                    <i class="fas fa-lock"></i> Password:
+                </label>
+                <input type="password" id="password" th:field="*{password}" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">
+                    <i class="fas fa-user-tag"></i> Role:
+                </label>
+                <select id="role" th:field="*{role}" class="form-control">
+                    <option th:each="role : ${roles}"
+                            th:value="${role}"
+                            th:text="${role}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="enabled" th:field="*{enabled}" checked>
+                    <label for="enabled">
+                        <i class="fas fa-check-circle"></i> Enabled
+                    </label>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a th:href="@{/api/users}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to list
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save User
+                </button>
+            </div>
+        </form>
     </div>
-    <div>
-        <label for="role">Role:</label>
-        <select id="role" th:field="*{role}">
-            <option th:each="role : ${roles}"
-                    th:value="${role}"
-                    th:text="${role}"></option>
-        </select>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <div class="footer-links">
+            <a href="https://github.com/SailaubayevBegaidar" target="_blank">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="tel:+77057789246">
+                <i class="fas fa-phone"></i> 8 705 778 92 46
+            </a>
+            <a href="mailto:sailaubayevbegaidar@gmail.com">
+                <i class="fas fa-envelope"></i> sailaubayevbegaidar@gmail.com
+            </a>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DAITAN. All rights reserved.
+        </div>
     </div>
-    <div>
-        <label for="enabled">Enabled:</label>
-        <input type="checkbox" id="enabled" th:field="*{enabled}" checked>
-    </div>
-    <button type="submit">Save</button>
-</form>
-<a th:href="@{/api/users}">Back to list</a>
+</footer>
 </body>
 </html>

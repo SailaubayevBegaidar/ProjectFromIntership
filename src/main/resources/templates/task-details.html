@@ -2,27 +2,298 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Task Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAITAN | Task Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-blue: #2563eb;
+      --light-blue: #3b82f6;
+      --dark-blue: #1e40af;
+      --white: #ffffff;
+      --light-gray: #f8fafc;
+      --medium-gray: #e2e8f0;
+      --dark-gray: #64748b;
+      --text-dark: #1e293b;
+      --text-light: #f8fafc;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --radius-sm: 4px;
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--light-gray);
+      color: var(--text-dark);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--white) 0%, #f0f7ff 100%);
+      padding: 20px 0;
+      box-shadow: var(--shadow);
+      border-bottom: 3px solid var(--primary-blue);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      text-decoration: none;
+      background: linear-gradient(to right, var(--primary-blue), var(--light-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Main content */
+    main {
+      flex: 1;
+      padding: 30px 0;
+    }
+
+    /* Task Details Card */
+    .task-card {
+      background-color: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .task-title {
+      color: var(--primary-blue);
+      margin-bottom: 25px;
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .task-details {
+      list-style: none;
+    }
+
+    .task-details li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--medium-gray);
+      display: flex;
+      align-items: center;
+    }
+
+    .task-details li:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 500;
+      min-width: 120px;
+      color: var(--dark-gray);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .detail-value {
+      flex: 1;
+      color: var(--text-dark);
+    }
+
+    .empty-value {
+      color: var(--dark-gray);
+      font-style: italic;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-secondary {
+      background-color: var(--medium-gray);
+      color: var(--text-dark);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--dark-gray);
+      color: var(--white);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .mt-4 {
+      margin-top: 20px;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--dark-blue);
+      color: var(--text-light);
+      padding: 30px 0;
+      margin-top: 50px;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .footer-links a:hover {
+      opacity: 0.8;
+    }
+
+    .copyright {
+      font-size: 14px;
+      opacity: 0.8;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-<h2>Task Info</h2>
-<ul>
-  <li>ID: <span th:text="${task.id}"></span></li>
-  <li>Title: <span th:text="${task.title}"></span></li>
-  <li>Started On:
-    <span th:if="${task.startedOn != null}" th:text="${#temporals.format(task.startedOn, 'yyyy-MM-dd HH:mm')}"></span>
-    <span th:unless="${task.startedOn != null}">—</span>
-  </li>
-  <li>Completed On:
-    <span th:if="${task.completedOn != null}" th:text="${#temporals.format(task.completedOn, 'yyyy-MM-dd HH:mm')}"></span>
-    <span th:unless="${task.completedOn != null}">—</span>
-  </li>
-  <li>Location: <span th:text="${task.location}"></span></li>
-  <li>Assigned To:
-    <span th:if="${task.assignedTo != null}" th:text="${task.assignedTo}"></span>
-    <span th:unless="${task.assignedTo != null}">Not assigned</span>
-  </li>
-</ul>
-<a th:href="@{/api/tasks}">← Back</a>
+<header>
+  <div class="container">
+    <a href="#" class="logo">DAITAN</a>
+  </div>
+</header>
+
+<main class="container">
+  <div class="task-card">
+    <h2 class="task-title">
+      <i class="fas fa-info-circle"></i> Task Info
+    </h2>
+
+    <ul class="task-details">
+      <li>
+          <span class="detail-label">
+            <i class="fas fa-id-card"></i> ID:
+          </span>
+        <span class="detail-value" th:text="${task.id}"></span>
+      </li>
+      <li>
+          <span class="detail-label">
+            <i class="fas fa-heading"></i> Title:
+          </span>
+        <span class="detail-value" th:text="${task.title}"></span>
+      </li>
+      <li>
+          <span class="detail-label">
+            <i class="fas fa-clock"></i> Started On:
+          </span>
+        <span class="detail-value">
+            <span th:if="${task.startedOn != null}" th:text="${#temporals.format(task.startedOn, 'yyyy-MM-dd HH:mm')}"></span>
+            <span th:unless="${task.startedOn != null}" class="empty-value">—</span>
+          </span>
+      </li>
+      <li>
+          <span class="detail-label">
+            <i class="fas fa-check-circle"></i> Completed On:
+          </span>
+        <span class="detail-value">
+            <span th:if="${task.completedOn != null}" th:text="${#temporals.format(task.completedOn, 'yyyy-MM-dd HH:mm')}"></span>
+            <span th:unless="${task.completedOn != null}" class="empty-value">—</span>
+          </span>
+      </li>
+      <li>
+          <span class="detail-label">
+            <i class="fas fa-map-marker-alt"></i> Location:
+          </span>
+        <span class="detail-value" th:text="${task.location}"></span>
+      </li>
+      <li>
+          <span class="detail-label">
+            <i class="fas fa-user"></i> Assigned To:
+          </span>
+        <span class="detail-value">
+            <span th:if="${task.assignedTo != null}" th:text="${task.assignedTo}"></span>
+            <span th:unless="${task.assignedTo != null}" class="empty-value">Not assigned</span>
+          </span>
+      </li>
+    </ul>
+
+    <div class="text-center mt-4">
+      <a th:href="@{/api/tasks}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to Tasks
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-content">
+    <div class="footer-links">
+      <a href="https://github.com/SailaubayevBegaidar" target="_blank">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+      <a href="tel:+77057789246">
+        <i class="fas fa-phone"></i> 8 705 778 92 46
+      </a>
+      <a href="mailto:sailaubayevbegaidar@gmail.com">
+        <i class="fas fa-envelope"></i> sailaubayevbegaidar@gmail.com
+      </a>
+    </div>
+    <div class="copyright">
+      &copy; 2023 DAITAN. All rights reserved.
+    </div>
+  </div>
+</footer>
 </body>
 </html>
